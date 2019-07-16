@@ -27,4 +27,9 @@ and add to your path
 ``` bash
 mv weekday /usr/local/bin
 ```
+## Execution
 
+```bash
+# Open a terminal
+$ weekday
+```
