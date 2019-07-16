@@ -1,4 +1,4 @@
-# weekday
+# whichday
 
 Determine the day of the week for a date from November, 1st 1582 to December, 31st 9999 
 
@@ -6,17 +6,22 @@ Based on method #2 from [wikibooks](https://fr.wikibooks.org/wiki/Curiosit%C3%A9
 
 ## Get Involved
 
-## Current state of weekday
+* Fork from https://github.com/marcpascal/whichday
+* Local git clone in your github environment
 
-Command line support only.
+## Current state of whichday
 
-## Future of weekday
+Command line support only with user interaction.
 
-* Addition of biorythm 
+## Future of whichday
+
+* Command line with parameters
 * GUI for better experience
 * Local store of data to quickly populate the GUI
+* Determine the moon phase
+* Addition of a biorythm
 
-## Building weekday
+## Building whichday
 
 ``` bash
 make build
@@ -25,11 +30,11 @@ make build
 and add to your path
 
 ``` bash
-mv weekday /usr/local/bin
+mv whichday /usr/local/bin
 ```
 ## Execution
 
 ```bash
 # Open a terminal
-$ weekday
+$ whichday
 ```
