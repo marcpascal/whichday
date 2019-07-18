@@ -94,7 +94,7 @@ SYNOPSIS
     whichday [<options>]
 
 DESCRIPTION
-    Determine the the of the week from a given date 
+    Determine the day of the week from a given date 
     from 1/11/1582 to 31/12/9999.
 
 OPTIONS
@@ -107,12 +107,12 @@ OPTIONS
     -y, -- year
 		The year for a date from from 1/11/1582 to 31/12/9999
 EXAMPLE
-	whichday
-		Will interactively ask for the date
-	whichday --day 18 --month 7 --year 2019
-		will return: 18/07/2019 is Thursday
+    whichday
+        Will interactively ask for the date
+    whichday --day 18 --month 7 --year 2019
+        will return: 18/07/2019 is Thursday
     whichday --day 18 --month 7 --year 2019 --porcelain
-		will return: Thursday
+        will return: Thursday
       `)
 }
 
