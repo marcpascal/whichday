@@ -7,7 +7,7 @@ Based on method #2 from [wikibooks](https://fr.wikibooks.org/wiki/Curiosit%C3%A9
 ## Get Involved
 
 * Fork from https://github.com/marcpascal/whichday
-* Local git clone in your github environment
+* Local git clone in your github environment\
 
 ## Current state of whichday
 
@@ -15,7 +15,7 @@ Command line support only with user interaction.
 
 ## Future of whichday
 
-* Command line with parameters
+* Operations on date like delta days between 2 dates.
 * GUI for better experience
 * Local store of data to quickly populate the GUI
 * Determine the moon phase
@@ -36,5 +36,5 @@ mv whichday /usr/local/bin
 
 ```bash
 # Open a terminal
-$ whichday
+$ whichday --help
 ```

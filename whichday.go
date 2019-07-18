@@ -10,59 +10,144 @@ import (
 
 // Program variable declaration
 var (
-	help    int
-	day     int
-	month   int
-	year    int
-	cVar    int
-	aVar    int
-	mVar    int
-	j1Var   int
-	jVar    int
-	weekDay [7]string
-	nberror int
+	help      int
+	day       int
+	month     int
+	year      int
+	cVar      int
+	aVar      int
+	mVar      int
+	j1Var     int
+	jVar      int
+	weekDay   = [7]string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+	monthYear = [13]string{"", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
+	nberror   int
+	porcelain int
+	exit      int
 )
 
-// Init of the week days table
-func initVars() {
-	weekDay[0] = "Sunday"
-	weekDay[1] = "Monday"
-	weekDay[2] = "Tuesday"
-	weekDay[3] = "Wednesday"
-	weekDay[4] = "Thursday"
-	weekDay[5] = "Friday"
-	weekDay[6] = "Saturday"
-	nberror = 0
+// Getting the date from the input arguments
+func getInputArguments() {
+	argsWithoutProg := os.Args[1:]
+	nbArgs := len(argsWithoutProg)
+	// Test if arguments were given
+	if nbArgs <= 0 {
+		return
+	}
+
+	// Parse the inputs
+	for i := 0; i < nbArgs; i++ {
+		theArg := argsWithoutProg[i]
+		switch theArg {
+		// test if help requested
+		case "-h", "--help":
+			{
+				syntax()
+				exit++
+				return
+			}
+		// Get the output format
+		case "--porcelain":
+			{
+				porcelain++
+			}
+		// Get the day
+		case "-d", "--day":
+			{
+				i++
+				value, error := strconv.Atoi(argsWithoutProg[i])
+				if error != nil {
+					nberror++
+				}
+				day = value
+			}
+		// Get the day
+		case "-m", "--month":
+			{
+				i++
+				value, error := strconv.Atoi(argsWithoutProg[i])
+				if error != nil {
+					nberror++
+				}
+				month = value
+			}
+		// Get the day
+		case "-y", "--year":
+			{
+				i++
+				value, error := strconv.Atoi(argsWithoutProg[i])
+				if error != nil {
+					nberror++
+				}
+				year = value
+			}
+		}
+	}
+}
+
+func syntax() {
+	fmt.Println(`
+NAME
+    whichday - return the day of the week
+
+SYNOPSIS
+    whichday [<options>]
+
+DESCRIPTION
+    Determine the the of the week from a given date 
+    from 1/11/1582 to 31/12/9999.
+
+OPTIONS
+    --porcelain
+        Give the output in an easy-to-parse format for scripts.
+    -d, --day
+        The day from 1 to [28,29,30 or 31]
+    -m, --month
+        The month from 1 to 12
+    -y, -- year
+		The year for a date from from 1/11/1582 to 31/12/9999
+EXAMPLE
+	whichday
+		Will interactively ask for the date
+	whichday --day 18 --month 7 --year 2019
+		will return: 18/07/2019 is Thursday
+    whichday --day 18 --month 7 --year 2019 --porcelain
+		will return: Thursday
+      `)
 }
 
 // Getting the date
 func getDate() {
-	fmt.Println(`Enter the date for which you need the day of the week:
-		- day:   from 1 to 31
-		- month: from 1 to 12
-		- year:  from 1/11/1582 to 31/12/9999`)
-
-	value, err := getFromUser("Day:\t")
-	if err != nil {
-		fmt.Println("Error in day format")
-		nberror++
-		return
+	// Get the day if omitted
+	if day < 1 {
+		value, err := getFromUser("Day:    ")
+		if err != nil {
+			fmt.Println("Error in day format")
+			nberror++
+			return
+		}
+		day = value
 	}
-	day = value
-	value, err = getFromUser("Month:\t")
-	if err != nil {
-		fmt.Println("Error in month format")
-		nberror++
-		return
+	// Get the month if omitted
+	if month < 1 {
+		value, err := getFromUser("Month:  ")
+		if err != nil {
+			fmt.Println("Error in month format")
+			nberror++
+			return
+		}
+		month = value
 	}
-	month = value
-	value, err = getFromUser("Year:\t")
-	if err != nil {
-		fmt.Println("Error in year format")
-		nberror++
-		return
+	// Get the year if omitted
+	if year < 1 {
+		value, err := getFromUser("Year:   ")
+		if err != nil {
+			fmt.Println("Error in year format")
+			nberror++
+			return
+		}
+		year = value
 	}
-	year = value
 }
 
 // Get an input from the console by the user
@@ -72,13 +157,13 @@ func getFromUser(message string) (int, error) {
 	input, err := reader.ReadString('\n')
 	if err != nil {
 		fmt.Println(err)
-		return 0, err
+		return 1, err
 	}
 	input = strings.TrimRight(input, "\r\n")
 	response, err := strconv.Atoi(input)
 	if err != nil {
 		fmt.Println(err)
-		return 0, err
+		return 1, err
 	}
 	return response, err
 }
@@ -94,16 +179,22 @@ func calculate() {
 		int(aVar/400) +
 		int((31*mVar)/12)
 	jVar = j1Var % 7
-	// fmt.Printf("cVar=%d aVar=%d mVar=%d j1Var=%d jVar=%d\n", cVar, aVar, mVar, j1Var, jVar)
 }
 
 // Display the result on stdout
 func display() {
-	fmt.Printf("\n%02d/%02d/%04d is %s\n", day, month, year, weekDay[jVar])
+	if porcelain == 0 {
+		fmt.Printf("%s %02d, %04d is %s\n", monthYear[month], day, year, weekDay[jVar])
+	} else {
+		fmt.Printf("%s\n", weekDay[jVar])
+	}
 }
 
 func main() {
-	initVars()
+	getInputArguments()
+	if exit > 0 {
+		return
+	}
 	getDate()
 	if nberror > 0 {
 		fmt.Println("Error was detected. exiting")
