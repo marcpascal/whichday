@@ -61,7 +61,7 @@ func getInputArguments() {
 				}
 				day = value
 			}
-		// Get the day
+		// Get the month
 		case "-m", "--month":
 			{
 				i++
@@ -71,7 +71,7 @@ func getInputArguments() {
 				}
 				month = value
 			}
-		// Get the day
+		// Get the year
 		case "-y", "--year":
 			{
 				i++
